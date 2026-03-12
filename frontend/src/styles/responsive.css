@@ -1,0 +1,74 @@
+/* Responsive Layout Fixes */
+
+/* 1. Global Table Fixes */
+.overflow-x-auto {
+  -webkit-overflow-scrolling: touch;
+  max-width: 100%;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+/* 2. Dashboard Card Grid Fix */
+.dashboard-grid {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1.5rem;
+}
+
+@media (min-width: 640px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .dashboard-grid {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+/* 3. Sidebar Responsive Behavior */
+@media (max-width: 1023px) {
+  .sidebar {
+    position: fixed;
+    left: 0;
+    transition: transform 0.3s ease-in-out;
+  }
+  
+  .sidebar-hidden {
+    transform: translateX(-100%);
+  }
+  
+  .sidebar-visible {
+    transform: translateX(0);
+  }
+}
+
+/* 4. Typography Adjustments */
+.responsive-text {
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+@media (max-width: 640px) {
+  .text-responsive-base {
+    font-size: 0.875rem; /* text-sm */
+  }
+  .text-responsive-xl {
+    font-size: 1.125rem; /* text-lg */
+  }
+}
+
+/* 5. Form Responsive Padding */
+.form-container {
+  padding: 1.5rem;
+}
+
+@media (min-width: 768px) {
+  .form-container {
+    padding: 2.5rem;
+  }
+}

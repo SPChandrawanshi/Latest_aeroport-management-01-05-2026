@@ -1,0 +1,108 @@
+@import "tailwindcss";
+@import "./styles/responsive.css";
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+@theme {
+  --color-brand-primary: #FF8A00;
+  --color-brand-accent: #0a3d62;
+  --color-brand-dark: #0F0F0F;
+  --color-brand-border: #2A2A2A;
+
+  --color-bg-main: #F8FAFC;
+  --color-bg-secondary: rgba(248, 194, 145, 0.18);
+  --color-border-neutral: #E2E8F0;
+  --color-text-main: #1E293B;
+  --color-text-secondary: #64748B;
+  --color-text-muted: #94A3B8;
+
+  --color-success: #22C55E;
+  --color-warning: #F59E0B;
+  --color-error: #EF4444;
+  --color-info: #3B82F6;
+
+  --font-sans: "Outfit", "system-ui", "-apple-system", sans-serif;
+
+  /* Custom Shadow overrides as requested */
+  --shadow-sm: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --shadow-md: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --shadow-lg: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --shadow-xl: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --shadow-2xl: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  --shadow-brand: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+}
+
+@layer base {
+  *, ::before, ::after {
+    font-family: "Outfit", "system-ui", "-apple-system", sans-serif !important;
+  }
+
+  body {
+    @apply bg-bg-main text-text-main text-sm transition-colors duration-300;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply text-slate-900 font-bold tracking-tight;
+  }
+}
+
+@layer components {
+  .btn-primary {
+    @apply bg-brand-primary text-white px-6 py-2.5 rounded-xl font-bold uppercase tracking-widest text-[10px] transition-all transform hover:scale-[1.02] active:scale-[0.98] shadow-brand active:shadow-none;
+    border: 2px solid transparent;
+  }
+
+  .btn-primary:hover {
+    background-color: #FF6A00;
+    border: 2px solid #0a3d62;
+  }
+
+  .card-stat {
+    @apply p-6 rounded-2xl transition-all duration-200;
+    border: 2px solid #E2E8F0;
+    background-color: rgba(248, 194, 145, 0.18) !important;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  .card-stat:hover {
+    border: 2px solid #0a3d62;
+    box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+  }
+
+  .glass-panel {
+    @apply backdrop-blur-md;
+    background-color: rgba(248, 194, 145, 0.18) !important;
+    border: 2px solid #E2E8F0;
+  }
+
+  .glass-panel:hover {
+    border: 2px solid #0a3d62;
+  }
+}
+
+/* Global: force card background on all rounded panels (excluding buttons and small badges) */
+.rounded-xl:not(button):not(.bg-brand):not(.bg-success):not(.text-white):not(.bg-transparent),
+.rounded-2xl:not(button):not(.bg-brand):not(.bg-success):not(.text-white):not(.bg-transparent),
+.rounded-3xl:not(button):not(.bg-brand):not(.bg-success):not(.text-white):not(.bg-transparent),
+.bg-shiv-card,
+.bg-shiv-sidebar,
+.bg-shiv-bg-secondary {
+  background-color: rgba(248, 194, 145, 0.18) !important;
+}
+
+/* Global: all buttons get 2px hover border */
+@layer base {
+  button:not([class*="sidebar"]):not([class*="mobile"]):hover {
+    border-color: #0a3d62 !important;
+    outline: none;
+  }
+
+  button {
+    border: 2px solid transparent;
+    transition: border-color 0.2s ease, background-color 0.2s ease;
+  }
+}
