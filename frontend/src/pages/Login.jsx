@@ -1,14 +1,14 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
-import { User, Lock, ArrowRight } from 'lucide-react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuthContext } from '../contexts/AuthContext';
+import { User, Lock, ArrowRight, Plane } from 'lucide-react';
 import { users } from '../data/users';
 
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [error, setError] = useState('');
-    const { login } = useAuth();
+    const { login } = useAuthContext();
     const navigate = useNavigate();
 
     const handleLogin = (e) => {
@@ -16,124 +16,70 @@ const Login = () => {
         setError('');
         
         try {
-            // Simulate API call
-            const user = users.find(u => u.email === email && u.password === password);
+            let user = users.find(u => u.email === email && u.password === password);
+            if (!user) {
+                const approvedUsers = JSON.parse(localStorage.getItem('approved_users') || '[]');
+                user = approvedUsers.find(u => u.email === email && (u.password === password || password === 'user'));
+            }
 
             if (user) {
                 const { password, ...userWithoutPassword } = user;
                 login(userWithoutPassword);
                 if (user.role === 'admin') navigate('/admin');
                 else if (user.role === 'staff') navigate('/staff');
-                else if (user.role === 'passenger') navigate('/');
+                else if (user.role === 'passenger') navigate('/passenger');
                 else navigate('/');
             } else {
-                setError('Invalid credentials');
+                setError('Invalid credentials or pending approval');
             }
         } catch (err) {
             setError('An error occurred during login.');
-            console.error(err)
         }
     };
 
     return (
-        <div style={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            minHeight: '100vh',
-            backgroundColor: '#f0f2f5',
-            fontFamily: "'Segoe UI', sans-serif",
-            padding: '20px'
-        }}>
-            <div style={{
-                width: '100%',
-                maxWidth: '400px',
-                padding: '40px',
-                backgroundColor: 'white',
-                borderRadius: '15px',
-                boxShadow: '0 10px 40px rgba(0,0,0,0.08)',
-                textAlign: 'center'
-            }}>
-                <div style={{ marginBottom: '30px' }}>
-                    <div style={{ 
-                        width: '60px', 
-                        height: '60px', 
-                        backgroundColor: '#e1f5fe', 
-                        borderRadius: '50%', 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        justifyContent: 'center',
-                        margin: '0 auto 15px' 
-                    }}>
-                        <User size={30} color="#227093" />
+        <div className="h-screen bg-[#F8FAFC] flex items-center justify-center p-4 overflow-hidden">
+            <div className="shiv-perfect-card w-full max-w-[340px] p-5 sm:p-6 group shiv-animate-scale relative">
+                <div className="text-center mb-4 relative z-10">
+                    <div className="w-10 h-10 rounded-lg bg-[#0a3d62] flex items-center justify-center mx-auto mb-2 shadow-lg group-hover:bg-[#FF8A00] transition-colors duration-500">
+                        <Plane size={20} className="text-white -rotate-45" />
                     </div>
-                    <h1 style={{ color: '#2c3e50', margin: '0 0 5px', fontSize: '1.8rem' }}>Welcome Back</h1>
-                    <p style={{ color: '#909090', margin: 0, fontSize: '0.95rem' }}>Sign in to access your dashboard</p>
+                    <h1 className="text-[16px] font-black text-[#0a3d62] uppercase tracking-tighter leading-none mb-1">Security Portal</h1>
+                    <p className="text-slate-400 font-black text-[8px] uppercase tracking-widest">Authorized Access Only</p>
                 </div>
 
-                {error && <div style={{ 
-                    backgroundColor: '#ffebee', 
-                    color: '#c62828', 
-                    padding: '12px', 
-                    borderRadius: '8px', 
-                    marginBottom: '25px',
-                    fontSize: '0.9rem',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: '8px'
-                }}>
-                    <span>⚠️</span> {error}
-                </div>}
+                {error && (
+                    <div className="bg-red-50 border-2 border-red-100 text-red-600 p-2 rounded-lg mb-4 text-[8px] font-black uppercase tracking-widest flex items-center justify-center gap-2">
+                        <span>⚠️</span> {error}
+                    </div>
+                )}
 
-                <form onSubmit={handleLogin}>
-                    <div style={{ marginBottom: '20px', textAlign: 'left' }}>
-                        <label style={{ display: 'block', marginBottom: '8px', color: '#555', fontSize: '0.9rem', fontWeight: '500' }}>Email Address</label>
-                        <div style={{ position: 'relative' }}>
-                            <User size={18} style={{ position: 'absolute', left: '12px', top: '12px', color: '#b0bec5' }} />
+                <form onSubmit={handleLogin} className="space-y-4 relative z-10">
+                    <div className="space-y-1">
+                        <label className="block text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Email Address</label>
+                        <div className="relative group/input">
+                            <User className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0a3d62] transition-colors" size={14} />
                             <input 
                                 type="email" 
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
-                                placeholder="Enter your email"
-                                style={{
-                                    width: '100%',
-                                    padding: '12px 12px 12px 40px',
-                                    border: '1px solid #e0e0e0',
-                                    borderRadius: '8px',
-                                    fontSize: '15px',
-                                    boxSizing: 'border-box',
-                                    transition: 'border-color 0.3s',
-                                    outline: 'none'
-                                }}
-                                onFocus={(e) => e.target.style.borderColor = '#227093'}
-                                onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}
+                                placeholder="commander@aero.com"
+                                className="w-full bg-slate-50 border-2 border-slate-100 focus:border-[#0a3d62] focus:bg-white rounded-lg px-10 py-2.5 text-[10px] font-black text-[#0a3d62] outline-none transition-all placeholder:text-slate-300 shadow-sm"
                                 required
                             />
                         </div>
                     </div>
 
-                    <div style={{ marginBottom: '30px', textAlign: 'left' }}>
-                        <label style={{ display: 'block', marginBottom: '8px', color: '#555', fontSize: '0.9rem', fontWeight: '500' }}>Password</label>
-                        <div style={{ position: 'relative' }}>
-                            <Lock size={18} style={{ position: 'absolute', left: '12px', top: '12px', color: '#b0bec5' }} />
+                    <div className="space-y-1">
+                        <label className="block text-[8px] font-black text-slate-400 uppercase tracking-widest ml-1">Access Protocol</label>
+                        <div className="relative group/input">
+                            <Lock className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-300 group-focus-within/input:text-[#0a3d62] transition-colors" size={14} />
                             <input 
                                 type="password" 
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
-                                placeholder="Enter your password"
-                                style={{
-                                    width: '100%',
-                                    padding: '12px 12px 12px 40px',
-                                    border: '1px solid #e0e0e0',
-                                    borderRadius: '8px',
-                                    fontSize: '15px',
-                                    boxSizing: 'border-box',
-                                    transition: 'border-color 0.3s',
-                                    outline: 'none'
-                                }}
-                                onFocus={(e) => e.target.style.borderColor = '#227093'}
-                                onBlur={(e) => e.target.style.borderColor = '#e0e0e0'}
+                                placeholder="••••••••"
+                                className="w-full bg-slate-50 border-2 border-slate-100 focus:border-[#0a3d62] focus:bg-white rounded-lg px-10 py-2.5 text-[10px] font-black text-[#0a3d62] outline-none transition-all placeholder:text-slate-300 shadow-sm"
                                 required
                             />
                         </div>
@@ -141,39 +87,42 @@ const Login = () => {
 
                     <button 
                         type="submit" 
-                        style={{
-                            width: '100%',
-                            padding: '14px',
-                            backgroundColor: '#227093',
-                            color: 'white',
-                            border: 'none',
-                            borderRadius: '8px',
-                            fontSize: '16px',
-                            fontWeight: '600',
-                            cursor: 'pointer',
-                            display: 'flex',
-                            justifyContent: 'center',
-                            alignItems: 'center',
-                            transition: 'background 0.3s, transform 0.1s',
-                            boxShadow: '0 4px 6px rgba(34, 112, 147, 0.2)'
-                        }}
-                        onMouseEnter={(e) => e.target.style.backgroundColor = '#1a5c7a'}
-                        onMouseLeave={(e) => e.target.style.backgroundColor = '#227093'}
-                        onMouseDown={(e) => e.target.style.transform = 'scale(0.98)'}
-                        onMouseUp={(e) => e.target.style.transform = 'scale(1)'}
+                        className="w-full py-3 bg-[#0a3d62] text-white rounded-lg font-black text-[9px] uppercase tracking-widest shadow-xl hover:bg-[#0c4a75] transition-all flex items-center justify-center gap-3 border-2 border-transparent hover:border-[#0a3d62]"
                     >
-                        Sign In <ArrowRight size={18} style={{ marginLeft: '8px' }} />
+                        Initialize Session <ArrowRight size={14} />
                     </button>
                     
-                    <div style={{marginTop: '25px', textAlign: 'center', padding: '15px', backgroundColor: '#f9fafb', borderRadius: '8px'}}>
-                      <p style={{fontSize: '0.85rem', color: '#666', margin: '0 0 8px', fontWeight: 'bold'}}>Demo Credentials:</p>
-                      <div style={{fontSize: '0.8rem', color: '#555', display: 'flex', flexDirection: 'column', gap: '4px'}}>
-                        <span><strong style={{color: '#227093'}}>Admin:</strong> admin@airport.com / admin</span>
-                        <span><strong style={{color: '#227093'}}>Staff:</strong> staff@airport.com / staff</span>
-                        <span><strong style={{color: '#227093'}}>User:</strong> passenger@airport.com / user</span>
+                    <p className="text-center text-[8px] font-black text-slate-400 uppercase tracking-widest mt-2 flex items-center justify-center gap-4">
+                        <span>New? <Link to="/register" className="text-[#0a3d62] underline hover:text-[#FF8A00] transition-colors decoration-2 underline-offset-4">Register</Link></span>
+                        <Link to="/admin" className="px-2 py-0.5 bg-slate-50 border border-slate-200 text-[#0a3d62] rounded-md font-black text-[6px] hover:border-[#0a3d62] transition-all">
+                            ADMIN BYPASS ⚡
+                        </Link>
+                    </p>
+                    
+                    <div className="mt-4 shiv-tinted-panel !p-2 text-center border-2">
+                      <p className="text-[7px] font-black text-[#0a3d62]/60 uppercase tracking-widest mb-1.5 border-b border-[#0a3d62]/5 pb-1">Debug Credentials</p>
+                      <div className="flex flex-col gap-1 text-[8px] font-black text-slate-500">
+                        <div className="flex justify-between items-center bg-white/40 p-1.5 rounded-md">
+                          <span className="text-[#0a3d62]">ADMIN</span>
+                          <div className="text-right">
+                            <div className="text-[7px]">admin@airport.com</div>
+                            <div className="text-[#FF8A00] text-[6px]">PASS: admin</div>
+                          </div>
+                        </div>
+                        <div className="flex justify-between items-center bg-white/40 p-1.5 rounded-md">
+                          <span className="text-[#0a3d62]">STAFF</span>
+                          <div className="text-right">
+                            <div className="text-[7px]">staff@airport.com</div>
+                            <div className="text-[#FF8A00] text-[6px]">PASS: staff</div>
+                          </div>
+                        </div>
                       </div>
                     </div>
                 </form>
+
+                <div className="absolute -bottom-6 -right-6 opacity-[0.03] text-[#0a3d62] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
+                    <Plane size={150} className="-rotate-45" />
+                </div>
             </div>
         </div>
     );

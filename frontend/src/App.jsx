@@ -1,6 +1,8 @@
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import Home from './pages/Home';
+import Login from './pages/Login';
+import Register from './pages/Register';
 import DashboardLayout from './layouts/DashboardLayout';
 
 // Import Specialized Overviews
@@ -19,6 +21,7 @@ import FlightScheduling from './dashboards/Admin/FlightScheduling';
 import AdminReports from './dashboards/Admin/Reports';
 import AdminNotifications from './dashboards/Admin/Notifications';
 import SystemSettings from './dashboards/Admin/SystemSettings';
+import KYCApprovals from './dashboards/Admin/KYCApprovals';
 
 // Pilot Pages
 import AssignedFlights from './dashboards/Pilot/AssignedFlights';
@@ -72,6 +75,7 @@ const dashboardMenus = {
     { label: 'Staff Management', path: '/admin/staff' },
     { label: 'Flight Scheduling', path: '/admin/scheduling' },
     { label: 'Reports', path: '/admin/reports' },
+    { label: 'KYC Approvals', path: '/admin/kyc' },
     { label: 'Notifications', path: '/admin/notifications' },
     { label: 'System Settings', path: '/admin/settings' },
   ],
@@ -133,6 +137,8 @@ const App = () => {
     <Router>
       <Routes>
         <Route path="/" element={<Home />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
         
         {/* Admin Dashboard Routes */}
         <Route path="/admin" element={<AdminOverview menus={dashboardMenus.admin} />} />
@@ -141,6 +147,7 @@ const App = () => {
         <Route path="/admin/staff" element={<StaffManagement menus={dashboardMenus.admin} />} />
         <Route path="/admin/scheduling" element={<FlightScheduling menus={dashboardMenus.admin} />} />
         <Route path="/admin/reports" element={<AdminReports menus={dashboardMenus.admin} />} />
+        <Route path="/admin/kyc" element={<KYCApprovals menus={dashboardMenus.admin} />} />
         <Route path="/admin/notifications" element={<AdminNotifications menus={dashboardMenus.admin} />} />
         <Route path="/admin/settings" element={<SystemSettings menus={dashboardMenus.admin} />} />
 

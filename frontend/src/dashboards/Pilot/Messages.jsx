@@ -11,59 +11,59 @@ const PilotMessages = ({ menus }) => {
 
   return (
     <DashboardLayout dashboardType="Pilot" menus={menus} pageTitle="Crew Messaging">
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 h-[700px] animate-in fade-in duration-700">
-        <div className="lg:col-span-4 bg-shiv-card rounded-[2.5rem] border border-shiv-border shadow-2xl overflow-hidden flex flex-col">
-          <div className="p-8 border-b border-shiv-border bg-shiv-sidebar/50">
-            <h3 className="font-black text-shiv-text-primary uppercase tracking-[0.2em] text-xs italic">Neural Comms Inbox</h3>
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 h-[700px] animate-in fade-in duration-700 max-w-7xl mx-auto">
+        <div className="lg:col-span-4 shiv-perfect-card overflow-hidden flex flex-col p-0">
+          <div className="p-8 border-b-2 border-slate-50 bg-slate-50/30">
+            <h3 className="font-black text-[#0a3d62] uppercase tracking-widest text-[12px]">Neural Comms Inbox</h3>
           </div>
           <div className="flex-1 overflow-y-auto custom-scrollbar">
             {threads.map((t, i) => (
-              <div key={i} className={`p-8 border-b border-shiv-border cursor-pointer hover:bg-shiv-card-hover transition-all group ${t.unread ? 'bg-shiv-primary/5' : ''}`}>
+              <div key={i} className={`p-8 border-b-2 border-slate-50 cursor-pointer hover:bg-slate-50/50 transition-all group border-l-4 ${t.unread ? 'border-l-[#FF8A00] bg-blue-50/30' : 'border-l-transparent'}`}>
                 <div className="flex justify-between items-start mb-2">
-                  <span className="font-black text-shiv-text-primary uppercase tracking-tight text-sm">{t.from}</span>
-                  <span className="text-[10px] font-black text-shiv-muted uppercase tracking-[0.2em]">{t.time}</span>
+                  <span className="font-black text-[#0a3d62] uppercase tracking-tight text-sm">{t.from}</span>
+                  <span className="text-[10px] font-black text-slate-400 uppercase tracking-widest">{t.time}</span>
                 </div>
-                <p className="text-xs text-shiv-text-secondary truncate font-bold group-hover:text-shiv-text-primary transition-colors">{t.subject}</p>
-                {t.unread && <div className="mt-2 w-1.5 h-1.5 bg-shiv-primary rounded-full shadow-[0_0_10px_#FF8A00]"></div>}
+                <p className="text-[11px] text-slate-500 truncate font-bold uppercase tracking-wide">{t.subject}</p>
+                {t.unread && <div className="mt-3 w-2 h-2 bg-[#FF8A00] rounded-full shadow-[0_0_10px_rgba(255,138,0,0.5)]"></div>}
               </div>
             ))}
           </div>
         </div>
 
-        <div className="lg:col-span-8 bg-shiv-card rounded-[2.5rem] border border-shiv-border shadow-2xl overflow-hidden flex flex-col">
-          <div className="p-8 border-b border-shiv-border flex items-center justify-between bg-shiv-sidebar/30">
+        <div className="lg:col-span-8 shiv-perfect-card overflow-hidden flex flex-col p-0 group">
+          <div className="p-8 border-b-2 border-slate-50 flex items-center justify-between bg-slate-50/20">
             <div className="flex items-center gap-5">
-              <div className="w-12 h-12 bg-shiv-primary/10 border border-shiv-primary/20 rounded-2xl flex items-center justify-center text-shiv-primary shadow-lg shadow-black/20">
+              <div className="w-12 h-12 bg-[#0a3d62] rounded-xl flex items-center justify-center text-white shadow-xl group-hover:rotate-6 transition-all duration-500">
                 <User size={24} />
               </div>
               <div className="flex flex-col">
-                <span className="font-black text-shiv-text-primary uppercase tracking-wider italic">Strategic Ops Command</span>
-                <span className="text-[10px] font-black text-success uppercase tracking-[0.2em]">Link Secure</span>
+                <span className="font-black text-[#0a3d62] uppercase tracking-wider italic leading-none mb-1">Strategic Ops Command</span>
+                <span className="text-[10px] font-black text-emerald-600 uppercase tracking-widest leading-none">Link Secure</span>
               </div>
             </div>
           </div>
           
-          <div className="flex-1 p-10 bg-shiv-bg-secondary/20 space-y-8 overflow-y-auto">
+          <div className="flex-1 p-10 bg-slate-50/10 space-y-8 overflow-y-auto custom-scrollbar">
             <div className="flex justify-end">
-              <div className="bg-shiv-sidebar border border-shiv-border text-shiv-text-primary p-6 rounded-[2rem] rounded-tr-none max-w-[75%] shadow-2xl">
-                <p className="text-xs font-bold leading-loose tracking-wide">Initializing request for updated <span className="text-shiv-primary">METAR data</span> for arrival vector at JFK. Confirming window sync.</p>
+              <div className="bg-[#0a3d62] text-white p-6 rounded-[2rem] rounded-tr-none max-w-[75%] shadow-xl border-2 border-transparent">
+                <p className="text-[12px] font-bold leading-relaxed tracking-wide uppercase">Initializing request for updated <span className="text-[#FF8A00] font-black">METAR data</span> for arrival vector at JFK. Confirming window sync.</p>
               </div>
             </div>
             <div className="flex justify-start">
-              <div className="bg-shiv-card border border-shiv-border p-6 rounded-[2rem] rounded-tl-none max-w-[75%] shadow-2xl relative">
-                <p className="text-xs font-bold leading-loose tracking-wide text-shiv-text-secondary">Request acknowledged. Syncing tactical weather array now. High visibility confirmed for destination vector.</p>
+              <div className="bg-white border-2 border-[#0a3d62]/10 p-6 rounded-[2rem] rounded-tl-none max-w-[75%] shadow-xl relative group/msg hover:border-[#0a3d62] transition-all">
+                <p className="text-[12px] font-bold leading-relaxed tracking-wide text-slate-600 uppercase">Request acknowledged. Syncing tactical weather array now. High visibility confirmed for destination vector.</p>
               </div>
             </div>
           </div>
 
-          <div className="p-8 border-t border-shiv-border bg-shiv-sidebar/20">
-            <div className="flex gap-5">
+          <div className="p-8 border-t-2 border-slate-50 bg-slate-50/10">
+            <div className="flex gap-4">
               <input 
                 type="text" 
                 placeholder="Transmit encrypted signal..." 
-                className="flex-1 bg-shiv-bg-secondary border border-shiv-border rounded-2xl px-8 py-4 text-xs font-bold text-shiv-text-primary focus:outline-none focus:border-shiv-primary focus:ring-1 focus:ring-shiv-primary/30 transition-all placeholder:text-shiv-muted/50"
+                className="shiv-input-field flex-1 px-8 py-4" 
               />
-              <button className="bg-shiv-primary text-shiv-bg p-4 rounded-2xl hover:bg-shiv-primary-hover hover:scale-105 active:scale-95 transition-all shadow-lg shadow-shiv-primary/20">
+              <button className="bg-[#0a3d62] text-white p-4 rounded-2xl hover:bg-[#0c4a75] hover:scale-105 transition-all shadow-xl border-2 border-transparent hover:border-[#0a3d62]">
                 <Send size={24} />
               </button>
             </div>

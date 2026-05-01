@@ -1,44 +1,44 @@
 import React from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
-import { ShieldCheck, User, Plane, MapPin, ChevronRight } from 'lucide-react';
+import { ShieldCheck, User, Plane, MapPin, ChevronRight, CheckCircle2 } from 'lucide-react';
 
 const Checkin = ({ menus }) => {
   return (
     <DashboardLayout dashboardType="Passenger" menus={menus} pageTitle="Online Check-In Hub">
-      <div className="max-w-2xl animate-in fade-in duration-700">
-         <div className="bg-shiv-card rounded-[3rem] border border-shiv-border shadow-2xl p-12 relative overflow-hidden group">
-            <div className="flex items-center gap-8 mb-12 border-b border-shiv-border/50 pb-12 relative z-10">
-               <div className="w-24 h-24 bg-shiv-sidebar border border-shiv-border rounded-3xl flex items-center justify-center text-shiv-primary shadow-xl group-hover:scale-110 transition-transform duration-500">
-                 <ShieldCheck size={48} />
+      <div className="max-w-2xl animate-in fade-in duration-700 mx-auto">
+         <div className="shiv-perfect-card p-8 sm:p-10 relative overflow-hidden group">
+            <div className="flex items-center gap-8 mb-10 border-b-2 border-slate-50 pb-8 relative z-10">
+               <div className="w-16 h-16 bg-[#0a3d62] rounded-xl flex items-center justify-center text-white shadow-xl group-hover:bg-[#FF8A00] transition-colors duration-500">
+                 <ShieldCheck size={32} />
                </div>
                <div>
-                 <h3 className="text-3xl font-black text-shiv-text-primary tracking-tighter italic uppercase">Security Protocol</h3>
-                 <p className="text-[10px] text-shiv-muted font-black uppercase tracking-[0.3em]">Neural Verification Ready</p>
+                 <h3 className="text-[24px] font-black text-[#0a3d62] tracking-tighter uppercase leading-none mb-1">Security Protocol</h3>
+                 <p className="text-[11px] text-slate-400 font-bold uppercase tracking-[0.3em] leading-none">Neural Verification Ready</p>
                </div>
             </div>
 
-            <div className="space-y-6 relative z-10">
+            <div className="space-y-4 relative z-10">
               {[
-                { label: 'Passenger Identity', status: 'Verified', icon: <User size={20} /> },
-                { label: 'Baggage Declaration', status: 'Pending', icon: <ChevronRight size={20} /> },
-                { label: 'Seat Vector', status: '12A', icon: <Plane size={20} /> },
+                { label: 'Passenger Identity', status: 'Verified', active: true, icon: <User size={18} /> },
+                { label: 'Baggage Declaration', status: 'Pending', active: false, icon: <ChevronRight size={18} /> },
+                { label: 'Seat Vector', status: '12A', active: true, icon: <Plane size={18} /> },
               ].map((s, i) => (
-                <div key={i} className="flex items-center justify-between p-8 bg-shiv-bg-secondary rounded-[1.5rem] border border-shiv-border hover:border-shiv-primary/40 hover:bg-shiv-card-hover transition-all cursor-pointer group/item">
-                  <div className="flex items-center gap-6">
-                    <div className="p-3 bg-shiv-card rounded-xl border border-shiv-border text-shiv-muted group-hover/item:text-shiv-primary group-hover/item:border-shiv-primary/30 transition-all">{s.icon}</div>
-                    <span className="font-black italic uppercase tracking-tight text-shiv-text-primary">{s.label}</span>
+                <div key={i} className="shiv-tinted-panel p-5 group/item flex items-center justify-between border-2 hover:border-[#0a3d62] !bg-slate-50/50">
+                  <div className="flex items-center gap-4">
+                    <div className="p-2.5 bg-white rounded-lg border-2 border-[#0a3d62]/5 text-[#0a3d62] shadow-sm group-hover/item:border-[#0a3d62]/10 transition-colors">{s.icon}</div>
+                    <span className="font-black uppercase tracking-widest text-[12px] text-[#0a3d62]">{s.label}</span>
                   </div>
-                  <span className={`text-[10px] font-black uppercase tracking-widest ${s.status === 'Verified' ? 'text-success' : 'text-shiv-muted'}`}>{s.status}</span>
+                  <span className={`text-[10px] font-black uppercase tracking-widest ${s.active ? 'text-emerald-600' : 'text-slate-400'}`}>{s.status}</span>
                 </div>
               ))}
             </div>
 
-            <button className="w-full mt-12 py-6 bg-shiv-sidebar border border-shiv-border text-shiv-text-primary rounded-2xl font-black uppercase tracking-[0.3em] text-[10px] hover:bg-shiv-card-hover hover:border-shiv-primary/50 shadow-2xl transition-all relative z-10">
-              EXECUTE DIGITAL CHECK-IN
+            <button className="w-full mt-10 py-5 bg-[#0a3d62] text-white rounded-xl font-black uppercase tracking-widest text-[11px] hover:bg-[#0c4a75] shadow-xl transition-all relative z-10 flex items-center justify-center gap-3 border-2 border-transparent hover:border-[#0a3d62]">
+              EXECUTE DIGITAL CHECK-IN <CheckCircle2 size={16} />
             </button>
 
-            <div className="absolute -bottom-10 -right-10 opacity-[0.02] pointer-events-none">
-                <ShieldCheck size={300} />
+            <div className="absolute -bottom-10 -right-10 opacity-[0.03] text-[#0a3d62] pointer-events-none group-hover:scale-110 transition-transform duration-1000">
+                <ShieldCheck size={280} />
             </div>
          </div>
       </div>

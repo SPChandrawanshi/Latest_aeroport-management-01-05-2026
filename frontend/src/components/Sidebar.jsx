@@ -22,12 +22,17 @@ import {
   Wrench
 } from 'lucide-react';
 import { NavLink, useNavigate } from 'react-router-dom';
+import { useNotification } from '../contexts/NotificationContext';
 
 const Sidebar = ({ isCollapsed, setIsCollapsed, isOpen, setIsOpen, dashboardType, menus }) => {
   const navigate = useNavigate();
+  const { addNotification } = useNotification();
 
   const handleLogout = () => {
-    navigate('/');
+    addNotification('Terminating secure session... Access revoked.', 'error');
+    setTimeout(() => {
+      navigate('/');
+    }, 1500);
   };
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed);
@@ -35,48 +40,48 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, isOpen, setIsOpen, dashboardType
 
   const getIcon = (label) => {
     const icons = {
-      'Overview': <LayoutDashboard size={20} />,
-      'Airport Management': <MapPin size={20} />,
-      'Aircraft Management': <Plane size={20} />,
-      'Staff Management': <Users size={20} />,
-      'Flight Scheduling': <Calendar size={20} />,
-      'Reports': <BarChart3 size={20} />,
-      'Notifications': <Bell size={20} />,
-      'System Settings': <Settings size={20} />,
-      'Pilot Overview': <ShieldCheck size={20} />,
-      'Assigned Flights': <Plane size={20} />,
-      'Flight Logs': <ClipboardList size={20} />,
-      'Weather Reports': <MapPin size={20} />,
-      'Flight Schedule': <Clock size={20} />,
-      'Messages': <MessageSquare size={20} />,
-      'Profile': <User size={20} />,
-      'Passenger Overview': <User size={20} />,
-      'My Tickets': <Ticket size={20} />,
-      'Booking History': <Clock size={20} />,
-      'Flight Status': <Plane size={20} />,
-      'Check-in': <ShieldCheck size={20} />,
-      'Support': <MessageSquare size={20} />,
-      'Operations Overview': <LayoutDashboard size={20} />,
-      'Flight Tracking': <Plane size={20} />,
-      'Departure Management': <Plane size={20} />,
-      'Arrival Management': <Plane size={20} />,
-      'Gate Management': <MapPin size={20} />,
-      'Delay Monitoring': <AlertTriangle size={20} />,
-      'Alerts': <AlertTriangle size={20} />,
-      'Maintenance Overview': <Wrench size={20} />,
-      'Aircraft Status': <Plane size={20} />,
-      'Inspection Logs': <ClipboardList size={20} />,
-      'Maintenance Schedule': <Calendar size={20} />,
-      'Repair Requests': <AlertTriangle size={20} />,
-      'Spare Parts': <Settings size={20} />,
-      'Booking Overview': <LayoutDashboard size={20} />,
-      'Ticket Booking': <Ticket size={20} />,
-      'Ticket Cancellation': <X size={20} />,
-      'Payment Records': <BarChart3 size={20} />,
-      'Passenger List': <Users size={20} />,
-      'Flight Availability': <Plane size={20} />,
+      'Overview': <LayoutDashboard size={18} />,
+      'Airport Management': <MapPin size={18} />,
+      'Aircraft Management': <Plane size={18} />,
+      'Staff Management': <Users size={18} />,
+      'Flight Scheduling': <Calendar size={18} />,
+      'Reports': <BarChart3 size={18} />,
+      'Notifications': <Bell size={18} />,
+      'System Settings': <Settings size={18} />,
+      'Pilot Overview': <ShieldCheck size={18} />,
+      'Assigned Flights': <Plane size={18} />,
+      'Flight Logs': <ClipboardList size={18} />,
+      'Weather Reports': <MapPin size={18} />,
+      'Flight Schedule': <Clock size={18} />,
+      'Messages': <MessageSquare size={18} />,
+      'Profile': <User size={18} />,
+      'Passenger Overview': <User size={18} />,
+      'My Tickets': <Ticket size={18} />,
+      'Booking History': <Clock size={18} />,
+      'Flight Status': <Plane size={18} />,
+      'Check-in': <ShieldCheck size={18} />,
+      'Support': <MessageSquare size={18} />,
+      'Operations Overview': <LayoutDashboard size={18} />,
+      'Flight Tracking': <Plane size={18} />,
+      'Departure Management': <Plane size={18} />,
+      'Arrival Management': <Plane size={18} />,
+      'Gate Management': <MapPin size={18} />,
+      'Delay Monitoring': <AlertTriangle size={18} />,
+      'Alerts': <AlertTriangle size={18} />,
+      'Maintenance Overview': <Wrench size={18} />,
+      'Aircraft Status': <Plane size={18} />,
+      'Inspection Logs': <ClipboardList size={18} />,
+      'Maintenance Schedule': <Calendar size={18} />,
+      'Repair Requests': <AlertTriangle size={18} />,
+      'Spare Parts': <Settings size={18} />,
+      'Booking Overview': <LayoutDashboard size={18} />,
+      'Ticket Booking': <Ticket size={18} />,
+      'Ticket Cancellation': <X size={18} />,
+      'Payment Records': <BarChart3 size={18} />,
+      'Passenger List': <Users size={18} />,
+      'Flight Availability': <Plane size={18} />,
     };
-    return icons[label] || <LayoutDashboard size={20} />;
+    return icons[label] || <LayoutDashboard size={18} />;
   };
 
   return (
@@ -88,27 +93,33 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, isOpen, setIsOpen, dashboardType
 
       {/* Sidebar */}
       <aside 
-        style={{ backgroundColor: 'rgba(248, 194, 145, 1)' }}
-        className={`fixed top-0 left-0 h-full text-[#0a3d62] transition-all duration-300 z-50 border-r border-[#0a3d62]/20 shadow-2xl
+        style={{ backgroundColor: 'rgba(248, 194, 145, 1)', boxShadow: 'rgba(0, 0, 0, 0.24) 0px 3px 8px' }}
+        className={`fixed top-0 left-0 h-full text-[#0a3d62] transition-all duration-300 z-50 border-r-2 border-[#0a3d62]/10
         ${isCollapsed ? 'w-20' : 'w-64'} 
         ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
         
-        <div className="p-6 flex items-center justify-between border-b border-[#0a3d62]/20">
+        <div className="p-6 flex items-center justify-between border-b-2 border-[#0a3d62]/10">
           {!isCollapsed && (
             <div className="flex items-center gap-3">
-              <Plane className="text-brand-primary" size={28} />
-              <span className="font-black text-xl text-[#0a3d62] tracking-tighter italic uppercase">Aero Command</span>
+              <div className="w-8 h-8 rounded-lg bg-[#0a3d62] text-white flex items-center justify-center">
+                <Plane size={20} />
+              </div>
+              <span className="font-bold text-[14px] text-[#0a3d62] uppercase tracking-tighter">Aero Command</span>
             </div>
           )}
-          {isCollapsed && <Plane className="text-brand-primary mx-auto" size={28} />}
+          {isCollapsed && (
+            <div className="w-8 h-8 rounded-lg bg-[#0a3d62] text-white flex items-center justify-center mx-auto">
+              <Plane size={20} />
+            </div>
+          )}
           
           <button onClick={toggleSidebar} className="hidden lg:block text-[#0a3d62]/60 hover:text-[#0a3d62]">
-            <ChevronLeft size={20} className={isCollapsed ? 'rotate-180' : ''} />
+            <ChevronLeft size={18} className={isCollapsed ? 'rotate-180' : ''} />
           </button>
         </div>
 
         <div className="py-6 px-3 space-y-2 overflow-y-auto h-[calc(100%-160px)] custom-scrollbar">
-          <div className="px-3 mb-2 text-[10px] font-black text-[#0a3d62]/60 uppercase tracking-[0.2em]">
+          <div className="px-4 mb-3 text-[10px] font-black text-[#0a3d62]/40 uppercase tracking-widest">
             {!isCollapsed ? `${dashboardType} Control` : dashboardType[0]}
           </div>
           
@@ -117,22 +128,26 @@ const Sidebar = ({ isCollapsed, setIsCollapsed, isOpen, setIsOpen, dashboardType
               key={index}
               to={menu.path}
               onClick={closeMobile}
-              className={({ isActive }) => `flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-200 border
-                ${isActive ? 'bg-[#0a3d62] text-white border-[#0a3d62] shadow-lg shadow-[#0a3d62]/20' : 'border-transparent hover:border-[#0a3d62] hover:text-[#0a3d62] hover:bg-white/50'}`}
+              className={({ isActive }) => `flex items-center gap-3 px-4 py-2.5 shiv-menu-item
+                ${isActive ? 'active bg-white text-[#0a3d62] shadow-lg' : 'text-[#0a3d62] hover:bg-[#0a3d62]/5'}`}
             >
               <span className="shrink-0">{getIcon(menu.label)}</span>
-              {!isCollapsed && <span className="font-bold text-sm tracking-wide">{menu.label}</span>}
+              <span className={`font-bold text-[12px] uppercase tracking-tight whitespace-nowrap transition-all duration-300 ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'}`}>
+                {menu.label}
+              </span>
             </NavLink>
           ))}
         </div>
 
-        <div className="absolute bottom-6 left-0 w-full px-4">
+        <div className="absolute bottom-6 left-0 w-full px-3">
           <button 
             onClick={handleLogout}
-            className="flex items-center gap-4 w-full px-5 py-4 bg-brand-dark/50 border border-brand-border/50 text-slate-400 hover:text-error hover:border-error/30 hover:bg-white/5 rounded-2xl transition-all uppercase text-[10px] font-black tracking-[0.3em] cursor-pointer group/logout shadow-lg"
+            className="flex items-center gap-4 w-full px-4 py-3.5 bg-[#0a3d62] text-white border-2 border-[#0a3d62]/10 rounded-xl hover:bg-[#0c4a75] transition-all uppercase text-[10px] font-bold tracking-widest cursor-pointer group/logout shadow-lg overflow-hidden"
           >
-            <LogOut size={20} className="group-hover/logout:-translate-x-1 transition-transform" />
-            {!isCollapsed && <span>System Logout</span>}
+            <div className="shrink-0"><LogOut size={18} className="group-hover/logout:-translate-x-1 transition-transform" /></div>
+            <span className={`whitespace-nowrap transition-all duration-300 ${isCollapsed ? 'opacity-0 w-0' : 'opacity-100 w-auto'}`}>
+              System Logout
+            </span>
           </button>
         </div>
       </aside>

@@ -2,7 +2,7 @@ import React from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import Table from '../../components/Table';
 import Form from '../../components/Form';
-import { MapPin, Building2, Globe, Shield } from 'lucide-react';
+import { MapPin, Building2, Globe, Shield, Map } from 'lucide-react';
 
 const AirportManagement = ({ menus }) => {
   const airports = [
@@ -14,35 +14,35 @@ const AirportManagement = ({ menus }) => {
 
   return (
     <DashboardLayout dashboardType="Admin" menus={menus} pageTitle="Airport Management">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 animate-in fade-in duration-700">
-        <div className="lg:col-span-2 space-y-8">
-          <div className="bg-white p-10 rounded-3xl border border-border-neutral shadow-sm">
-            <h3 className="text-xl font-bold text-slate-900 uppercase tracking-[0.2em] mb-10 flex items-center gap-3">
-              <Globe size={20} className="text-brand-primary" />
-              Operational Airports
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in fade-in duration-700">
+        <div className="lg:col-span-2 space-y-6">
+          <div className="shiv-perfect-card p-6 sm:p-8">
+            <h3 className="text-[14px] font-bold text-[#0a3d62] uppercase tracking-widest mb-8 flex items-center gap-3">
+              <Globe size={20} className="text-[#FF8A00]" />
+              Operational Airports Registry
             </h3>
             <Table 
               headers={['Airport Name', 'Code', 'City', 'Status', 'Capacity']}
               data={airports.map(a => ({
                 ...a,
                 status: (
-                  <span className={`px-4 py-1.5 rounded-lg border text-[10px] font-bold uppercase tracking-widest ${
-                    a.status === 'Operational' ? 'bg-green-50 text-green-600 border-green-100' : 'bg-amber-50 text-amber-600 border-amber-100'
+                  <span className={`px-4 py-1.5 rounded-lg border-2 text-[10px] font-bold uppercase tracking-widest ${
+                    a.status === 'Operational' ? 'bg-emerald-50 text-emerald-600 border-emerald-100' : 'bg-amber-50 text-amber-600 border-amber-100'
                   }`}>
                     {a.status}
                   </span>
                 ),
-                capacity: <span className="font-bold text-slate-900">{a.capacity}</span>
+                capacity: <span className="font-bold text-[#0a3d62]">{a.capacity}</span>
               }))}
             />
           </div>
         </div>
         
-        <div className="space-y-8">
-          <div className="bg-white border border-border-neutral text-slate-900 p-10 rounded-3xl shadow-sm">
-            <h3 className="text-xl font-bold mb-10 uppercase tracking-tight flex items-center gap-3">
-              <Building2 size={24} className="text-brand-primary" />
-              Register New Airport
+        <div className="space-y-6">
+          <div className="shiv-perfect-card p-6 sm:p-8">
+            <h3 className="text-[14px] font-bold text-[#0a3d62] mb-8 uppercase tracking-widest flex items-center gap-3">
+              <Building2 size={24} className="text-[#FF8A00]" />
+              Initialize Node
             </h3>
             <Form 
               fields={[
@@ -52,6 +52,19 @@ const AirportManagement = ({ menus }) => {
               ]}
               onSubmit={() => console.log('Airport added')}
             />
+          </div>
+
+          <div className="shiv-tinted-panel p-6 relative overflow-hidden group">
+             <h4 className="text-[14px] font-bold text-[#0a3d62] mb-3 flex items-center gap-3 uppercase tracking-tighter">
+               <Map size={20} className="text-[#FF8A00]" />
+               Strategic Coverage
+             </h4>
+             <p className="text-[11px] text-slate-600 font-bold leading-relaxed tracking-wide uppercase">
+               Global network currently spans across 4 active command centers.
+             </p>
+             <div className="absolute -bottom-6 -right-6 opacity-[0.05] text-[#0a3d62] group-hover:scale-110 transition-transform duration-700">
+               <MapPin size={100} />
+             </div>
           </div>
         </div>
       </div>

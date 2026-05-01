@@ -1,54 +1,59 @@
 import React from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
-import { Wind, Cloud, CloudRain, Sun, Thermometer, Navigation } from 'lucide-react';
+import { Wind, Cloud, CloudRain, Sun, Thermometer, Navigation, ShieldCheck } from 'lucide-react';
 
 const WeatherReports = ({ menus }) => {
   return (
     <DashboardLayout dashboardType="Pilot" menus={menus} pageTitle="Weather Briefing">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 animate-in fade-in duration-700">
-        <div className="lg:col-span-2 space-y-8">
-          <div className="bg-shiv-card p-10 rounded-[2.5rem] border border-shiv-border shadow-2xl">
-            <h3 className="text-xl font-black text-shiv-text-primary uppercase tracking-[0.2em] mb-10 italic">Neural Radar Array</h3>
-            <div className="aspect-video bg-shiv-bg-secondary rounded-3xl relative overflow-hidden flex items-center justify-center border border-shiv-border group">
-               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1590059132718-568eaefe9eb4?auto=format&fit=crop&q=80')] bg-cover opacity-20 group-hover:opacity-40 transition-opacity duration-1000"></div>
-               <div className="absolute inset-0 bg-gradient-to-t from-shiv-bg via-transparent to-transparent"></div>
-               <div className="relative text-shiv-primary font-black uppercase text-3xl tracking-[1.2em] italic drop-shadow-2xl">Scanning...</div>
-               <div className="absolute top-0 left-0 w-full h-1 bg-shiv-primary/40 animate-scan"></div>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in fade-in duration-700">
+        <div className="lg:col-span-2 space-y-6">
+          <div className="shiv-perfect-card p-6 sm:p-8">
+            <h3 className="text-[14px] font-bold text-[#0a3d62] uppercase tracking-widest mb-6 flex items-center gap-3">
+              <Navigation size={20} className="text-[#FF8A00]" />
+              Neural Radar Array
+            </h3>
+            <div className="aspect-video rounded-xl relative overflow-hidden flex items-center justify-center border-2 border-[#0a3d62]/10 group shadow-inner bg-slate-50">
+               <div className="absolute inset-0 bg-[url('https://images.unsplash.com/photo-1590059132718-568eaefe9eb4?auto=format&fit=crop&q=80')] bg-cover opacity-10 group-hover:opacity-20 transition-opacity duration-1000"></div>
+               <div className="absolute inset-0 bg-gradient-to-t from-white/80 via-transparent to-transparent"></div>
+               <div className="relative text-[#0a3d62] font-bold uppercase text-[24px] tracking-[0.5em] drop-shadow-sm">Scanning Area...</div>
+               <div className="absolute top-0 left-0 w-full h-1 bg-[#FF8A00] animate-pulse"></div>
             </div>
           </div>
         </div>
 
-        <div className="space-y-8">
-          <div className="bg-shiv-card p-10 rounded-[2.5rem] border border-shiv-border shadow-2xl">
-            <h3 className="text-[10px] font-black text-shiv-muted uppercase tracking-[0.3em] mb-8 italic">Current METAR Logic</h3>
-            <div className="space-y-8">
+        <div className="space-y-6">
+          <div className="shiv-perfect-card p-6 sm:p-8">
+            <h3 className="text-[11px] font-bold text-slate-400 uppercase tracking-widest mb-8 border-b-2 border-slate-50 pb-4">Current METAR Logic</h3>
+            <div className="space-y-6">
               {[
-                { label: 'Temperature', val: '14°C', icon: <Thermometer className="text-shiv-primary" /> },
-                { label: 'Wind Velocity', val: '12 kts @ 210°', icon: <Wind className="text-info" /> },
-                { label: 'Visibility', val: '>10 NM', icon: <Sun className="text-warning" /> },
-                { label: 'Pressure', val: '1013 hPa', icon: <Navigation className="text-success" /> },
+                { label: 'Temperature', val: '14°C', icon: <Thermometer size={18} />, color: 'text-blue-500' },
+                { label: 'Wind Velocity', val: '12 kts @ 210°', icon: <Wind size={18} />, color: 'text-[#FF8A00]' },
+                { label: 'Visibility', val: '>10 NM', icon: <Sun size={18} />, color: 'text-amber-500' },
+                { label: 'Pressure', val: '1013 hPa', icon: <ShieldCheck size={18} />, color: 'text-green-500' },
               ].map((w, i) => (
                 <div key={i} className="flex items-center justify-between group">
-                  <div className="flex items-center gap-5">
-                    <div className="p-3 bg-shiv-bg-secondary rounded-xl border border-shiv-border group-hover:scale-110 transition-transform">{w.icon}</div>
-                    <span className="text-xs font-black uppercase tracking-[0.1em] text-shiv-text-secondary">{w.label}</span>
+                  <div className="flex items-center gap-4">
+                    <div className="p-2.5 rounded-lg border-2 border-slate-50 group-hover:border-[#0a3d62]/20 transition-all bg-slate-50 text-[#0a3d62]">
+                        {w.icon}
+                    </div>
+                    <span className="text-[11px] font-bold uppercase tracking-widest text-slate-500">{w.label}</span>
                   </div>
-                  <span className="font-black text-shiv-text-primary tracking-tighter text-lg italic">{w.val}</span>
+                  <span className="font-bold text-[#0a3d62] text-[14px]">{w.val}</span>
                 </div>
               ))}
             </div>
           </div>
 
-          <div className="bg-shiv-sidebar border border-shiv-border text-shiv-text-primary p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden">
-             <h4 className="text-xl font-black mb-6 flex items-center gap-4 italic uppercase tracking-tighter">
-               <CloudRain className="text-shiv-primary" size={24} />
+          <div className="shiv-tinted-panel p-6 sm:p-8 relative overflow-hidden group">
+             <h4 className="text-[14px] font-bold text-[#0a3d62] mb-4 flex items-center gap-3 uppercase tracking-tighter">
+               <CloudRain className="text-[#FF8A00]" size={20} />
                Vector Advisory: JFK
              </h4>
-             <p className="text-xs text-shiv-text-secondary font-bold leading-loose tracking-wide italic">
-               "Scattered showers detected near destination vector between <span className="text-shiv-primary">16:00 - 19:00 UTC</span>. Potential for moderate turbulence at <span className="text-shiv-text-primary underline decoration-shiv-primary/30">FL320</span>."
+             <p className="text-[11px] text-slate-600 font-bold leading-relaxed tracking-wide uppercase">
+               "Scattered showers detected near destination vector between <span className="text-[#FF8A00]">16:00 - 19:00 UTC</span>. Potential for moderate turbulence at <span className="text-[#0a3d62] underline decoration-2 decoration-[#0a3d62]/20 underline-offset-4">FL320</span>."
              </p>
-             <div className="absolute -top-10 -right-10 opacity-[0.03]">
-               <CloudRain size={120} />
+             <div className="absolute -bottom-6 -right-6 opacity-[0.05] text-[#0a3d62] group-hover:scale-110 transition-transform duration-700">
+               <CloudRain size={100} />
              </div>
           </div>
         </div>

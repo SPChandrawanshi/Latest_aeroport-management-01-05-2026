@@ -1,16 +1,17 @@
 import React from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import Form from '../../components/Form';
-import { Settings, Shield, Globe, Database, ToggleRight } from 'lucide-react';
+import { Settings, Shield, Globe, Database, ToggleRight, CheckCircle2 } from 'lucide-react';
 
 const SystemSettings = ({ menus }) => {
   return (
     <DashboardLayout dashboardType="Admin" menus={menus} pageTitle="System Configuration">
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10 animate-in fade-in duration-700">
-        <div className="lg:col-span-2 space-y-8">
-          <div className="bg-shiv-card p-10 rounded-[2.5rem] border border-shiv-border shadow-2xl">
-            <h3 className="text-xl font-black text-shiv-text-primary uppercase tracking-[0.2em] mb-10 flex items-center gap-4 italic font-sans">
-              <Globe size={24} className="text-shiv-primary" />
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 animate-in fade-in duration-700 max-w-7xl mx-auto">
+        <div className="lg:col-span-2 space-y-6">
+          {/* General Protocols */}
+          <div className="shiv-perfect-card p-6 sm:p-8">
+            <h3 className="text-[14px] font-black text-[#0a3d62] uppercase tracking-widest mb-8 flex items-center gap-3 border-b-2 border-slate-50 pb-4">
+              <Globe size={20} className="text-[#FF8A00]" />
               General System Protocols
             </h3>
             <Form 
@@ -23,22 +24,25 @@ const SystemSettings = ({ menus }) => {
             />
           </div>
 
-          <div className="bg-shiv-card p-10 rounded-[2.5rem] border border-shiv-border shadow-2xl">
-            <h3 className="text-xl font-black text-shiv-text-primary uppercase tracking-[0.2em] mb-10 flex items-center gap-4 italic font-sans">
-              <Shield size={24} className="text-shiv-primary" />
+          {/* Security Protocols */}
+          <div className="shiv-perfect-card p-6 sm:p-8">
+            <h3 className="text-[14px] font-black text-[#0a3d62] uppercase tracking-widest mb-8 flex items-center gap-3 border-b-2 border-slate-50 pb-4">
+              <Shield size={20} className="text-[#FF8A00]" />
               Security & Neural Encryption
             </h3>
-            <div className="space-y-6">
+            <div className="space-y-4">
               {[
-                { label: 'Multi-Factor Auth', status: 'Active', icon: <ToggleRight className="text-success" /> },
-                { label: 'Biometric Access', status: 'Inactive', icon: <ToggleRight className="text-shiv-muted opacity-30" /> },
-                { label: 'Advanced Firewall', status: 'Active', icon: <ToggleRight className="text-success" /> },
+                { label: 'Multi-Factor Auth', status: 'Active', active: true },
+                { label: 'Biometric Access', status: 'Inactive', active: false },
+                { label: 'Advanced Firewall', status: 'Active', active: true },
               ].map((s, i) => (
-                <div key={i} className="flex items-center justify-between p-6 bg-shiv-bg-secondary/50 rounded-2xl border border-shiv-border transition-all hover:bg-shiv-card-hover group">
-                  <span className="font-black text-shiv-text-primary uppercase tracking-[0.1em] text-xs">{s.label}</span>
+                <div key={i} className="shiv-tinted-panel !bg-slate-50/50 p-5 group flex items-center justify-between border-2 hover:border-[#0a3d62]">
+                  <span className="font-black text-[#0a3d62] uppercase tracking-widest text-[11px]">{s.label}</span>
                   <div className="flex items-center gap-5">
-                    <span className={`text-[10px] font-black uppercase tracking-[0.2em] ${s.status === 'Active' ? 'text-success' : 'text-shiv-muted'}`}>{s.status}</span>
-                    <div className="transition-transform group-hover:scale-110">{s.icon}</div>
+                    <span className={`text-[10px] font-black uppercase tracking-widest ${s.active ? 'text-emerald-600' : 'text-slate-400'}`}>{s.status}</span>
+                    <div className={`transition-all ${s.active ? 'text-emerald-500 scale-110' : 'text-slate-300'}`}>
+                        <ToggleRight size={24} />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -46,19 +50,24 @@ const SystemSettings = ({ menus }) => {
           </div>
         </div>
 
-        <div className="space-y-8">
-          <div className="bg-shiv-sidebar border border-shiv-border text-shiv-text-primary p-10 rounded-[2.5rem] shadow-2xl relative overflow-hidden group">
+        <div className="space-y-6">
+          {/* Data Integrity Sidebar */}
+          <div className="shiv-tinted-panel p-6 sm:p-8 relative overflow-hidden group">
             <div className="relative z-10">
-              <Database className="text-shiv-primary mb-6 group-hover:animate-pulse" size={40} />
-              <h4 className="text-2xl font-black italic mb-4 tracking-tighter uppercase font-sans">Data Integrity Hub</h4>
-              <p className="text-shiv-text-secondary text-xs font-bold leading-loose mb-10 tracking-wide">
-                Full strategic backup performed <span className="text-shiv-text-primary italic">4h ago</span>. All peripheral nodes are synchronized.
+              <div className="w-14 h-14 rounded-2xl bg-[#0a3d62] text-white flex items-center justify-center mb-6 shadow-xl group-hover:rotate-6 transition-all duration-500">
+                <Database size={28} />
+              </div>
+              <h4 className="text-[22px] font-black text-[#0a3d62] mb-3 tracking-tighter uppercase leading-none">Data Integrity Hub</h4>
+              <p className="text-slate-500 text-[11px] font-bold leading-relaxed mb-8 tracking-wide uppercase">
+                Full strategic backup performed <span className="text-[#0a3d62] font-black underline decoration-2">4h ago</span>. All peripheral nodes are synchronized.
               </p>
-              <button className="btn-primary w-full shadow-orange-500/10">
-                Trigger Global Sync
+              <button className="w-full py-4 bg-[#0a3d62] text-white rounded-xl font-black uppercase tracking-widest text-[11px] shadow-xl hover:bg-[#0c4a75] transition-all flex items-center justify-center gap-3 hover:border-[#0a3d62] border-2 border-transparent">
+                Trigger Global Sync <CheckCircle2 size={16} />
               </button>
             </div>
-            <div className="absolute -bottom-10 -right-10 w-60 h-60 bg-shiv-primary opacity-[0.03] rounded-full blur-3xl group-hover:opacity-[0.07] transition-opacity duration-1000"></div>
+            <div className="absolute -bottom-10 -right-10 opacity-[0.03] text-[#0a3d62] group-hover:scale-110 transition-transform duration-1000">
+               <Database size={220} />
+            </div>
           </div>
         </div>
       </div>

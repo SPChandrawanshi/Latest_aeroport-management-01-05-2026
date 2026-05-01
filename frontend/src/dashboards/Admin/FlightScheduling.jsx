@@ -1,7 +1,7 @@
 import React from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import Table from '../../components/Table';
-import { Calendar, Clock, PlaneLanding, PlaneTakeoff } from 'lucide-react';
+import { Calendar, Clock, PlaneLanding, PlaneTakeoff, ShieldCheck } from 'lucide-react';
 
 const FlightScheduling = ({ menus }) => {
   const schedule = [
@@ -12,58 +12,65 @@ const FlightScheduling = ({ menus }) => {
 
   return (
     <DashboardLayout dashboardType="Admin" menus={menus} pageTitle="Flight Scheduling">
-      <div className="space-y-10 animate-in fade-in duration-700">
-        <div className="flex flex-wrap items-center justify-between gap-6">
-          <div className="flex items-center gap-5 bg-shiv-card p-5 rounded-2xl border border-shiv-border shadow-2xl w-fit">
-            <Calendar className="text-shiv-primary" size={24} />
-            <span className="font-black text-shiv-text-primary uppercase tracking-[0.2em] text-xs">SOLAR CYCLE: March 09, 2026</span>
+      <div className="space-y-6 animate-in fade-in duration-700 max-w-7xl mx-auto">
+        <div className="flex flex-wrap items-center justify-between gap-4">
+          <div className="shiv-perfect-card flex items-center gap-4 px-6 py-3 w-fit">
+            <Calendar className="text-[#FF8A00]" size={18} />
+            <span className="font-bold text-[#0a3d62] uppercase tracking-widest text-[11px]">SOLAR CYCLE: March 09, 2026</span>
           </div>
-          <button className="btn-primary flex items-center gap-3 shadow-orange-500/20">
-            <Clock size={20} />
+          <button className="bg-[#0a3d62] text-white px-6 py-3 rounded-xl font-bold text-[11px] uppercase tracking-widest flex items-center gap-3 shadow-xl hover:bg-[#0c4a75] transition-all hover:border-[#0a3d62] border-2 border-transparent">
+            <Clock size={16} />
             Generate Neural Schedule
           </button>
         </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
-          <div className="lg:col-span-2 bg-shiv-card p-10 rounded-[2.5rem] border border-shiv-border shadow-2xl">
-            <h3 className="text-xl font-black text-shiv-text-primary uppercase tracking-[0.2em] mb-10 italic border-b border-shiv-border pb-6">Daily Flight Matrix</h3>
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
+          <div className="lg:col-span-2 shiv-perfect-card p-6 sm:p-8">
+            <h3 className="text-[14px] font-bold text-[#0a3d62] uppercase tracking-widest mb-8 flex items-center gap-3 border-b-2 border-slate-50 pb-4">
+                <ShieldCheck size={20} className="text-[#FF8A00]" />
+                Daily Flight Matrix
+            </h3>
             <Table 
               headers={['Flight ID', 'Departure', 'Arrival', 'Route (ORI-DST)', 'Aircraft', 'Assigned Crew']}
-              data={schedule}
+              data={schedule.map(s => ({
+                  ...s,
+                  flight: <span className="font-bold text-[#0a3d62]">{s.flight}</span>,
+                  route: <span className="font-medium text-slate-500">{s.route}</span>
+              }))}
             />
           </div>
 
-          <div className="space-y-8">
-            <div className="bg-shiv-sidebar border border-shiv-border text-shiv-text-primary p-10 rounded-[2.5rem] shadow-2xl">
-              <h3 className="text-xl font-black mb-10 italic uppercase tracking-tight flex items-center gap-3">
-                <PlaneTakeoff size={24} className="text-shiv-primary" />
+          <div className="space-y-6">
+            <div className="shiv-perfect-card p-6 sm:p-8">
+              <h3 className="text-[14px] font-bold text-[#0a3d62] mb-8 uppercase tracking-widest flex items-center gap-3 border-b-2 border-slate-50 pb-4">
+                <PlaneTakeoff size={20} className="text-[#FF8A00]" />
                 Vector Traffic Load
               </h3>
-              <div className="space-y-10">
+              <div className="space-y-8">
                 {[
-                  { label: 'Departure Slots', status: '82% LOAD', val: 82, color: 'bg-shiv-primary' },
-                  { label: 'Arrival Slots', status: '45% CAPACITY', val: 55, color: 'bg-success' },
+                  { label: 'Departure Slots', status: '82% LOAD', val: 82, color: 'bg-[#0a3d62]' },
+                  { label: 'Arrival Slots', status: '45% CAPACITY', val: 55, color: 'bg-emerald-500' },
                 ].map((item, i) => (
                   <div key={i}>
-                    <div className="flex justify-between text-[10px] font-black uppercase tracking-[0.2em] mb-3">
-                      <span className="text-shiv-muted">{item.label}</span>
-                      <span className={item.color === 'bg-shiv-primary' ? 'text-shiv-primary' : 'text-success'}>{item.status}</span>
+                    <div className="flex justify-between text-[10px] font-bold uppercase tracking-widest mb-2">
+                      <span className="text-slate-400">{item.label}</span>
+                      <span className={item.color === 'bg-[#0a3d62]' ? 'text-[#0a3d62]' : 'text-emerald-600'}>{item.status}</span>
                     </div>
-                    <div className="h-1.5 bg-shiv-bg-secondary rounded-full overflow-hidden border border-shiv-border">
-                      <div className={`h-full rounded-full ${item.color} shadow-lg shadow-black/40`} style={{ width: `${item.val}%` }} />
+                    <div className="h-2 bg-slate-50 rounded-full overflow-hidden border-2 border-slate-100">
+                      <div className={`h-full rounded-full ${item.color} shadow-sm`} style={{ width: `${item.val}%` }} />
                     </div>
                   </div>
                 ))}
               </div>
             </div>
 
-            <div className="p-8 bg-shiv-bg-secondary/50 rounded-[2rem] border border-shiv-border border-dashed">
-              <h4 className="font-black text-shiv-text-primary mb-4 uppercase tracking-[0.1em] flex items-center gap-3 italic">
-                <PlaneLanding className="text-shiv-primary" size={20} />
+            <div className="shiv-tinted-panel p-6 relative overflow-hidden">
+              <h4 className="text-[13px] font-bold text-[#0a3d62] mb-4 uppercase tracking-widest flex items-center gap-3 border-b-2 border-[#0a3d62]/5 pb-2">
+                <PlaneLanding className="text-[#FF8A00]" size={18} />
                 Tactical Advisory
               </h4>
-              <p className="text-xs text-shiv-text-secondary leading-loose font-bold tracking-wide">
-                Slot optimization required for regional vectors between <span className="text-shiv-text-primary">14:00 - 16:00</span> to mitigate tactical congestion.
+              <p className="text-[11px] text-slate-600 leading-relaxed font-bold tracking-wide uppercase">
+                Slot optimization required for regional vectors between <span className="text-[#0a3d62] font-black underline decoration-2 underline-offset-4">14:00 - 16:00</span> to mitigate tactical congestion.
               </p>
             </div>
           </div>

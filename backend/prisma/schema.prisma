@@ -1,0 +1,153 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id               Int                @id @default(autoincrement())
+  email            String             @unique
+  password         String
+  name             String
+  role             Role               @default(PASSENGER)
+  createdAt        DateTime           @default( those)
+  updatedAt        DateTime           @updatedAt
+  tickets          Ticket[]
+  maintenanceLogs  MaintenanceLog[]
+  flightLogs       FlightLog[]
+  notifications    Notification[]
+  passengerProfile Passenger?
+
+  @@map("users")
+}
+
+enum Role {
+  ADMIN
+  PILOT
+  PASSENGER
+  OPERATIONS
+  MAINTENANCE
+  TICKETING
+}
+
+model Airport {
+  id               Int      @id @default(autoincrement())
+  code             String   @unique
+  name             String
+  city             String
+  country          String
+  departingFlights Flight[] @relation("DepartureAirport")
+  arrivingFlights  Flight[] @relation("ArrivalAirport")
+
+  @@map("airports")
+}
+
+model Aircraft {
+  id              Int              @id @default(autoincrement())
+  registration    String           @unique
+  model           String
+  capacity        Int
+  status          String           @default("ACTIVE")
+  flights         Flight[]
+  maintenanceLogs MaintenanceLog[]
+
+  @@map("aircraft")
+}
+
+model Flight {
+  id                 Int         @id @default(autoincrement())
+  flightNumber       String      @unique
+  departureAirportId Int
+  arrivalAirportId   Int
+  aircraftId         Int
+  departureTime      DateTime
+  arrivalTime        DateTime
+  status             String      @default("SCHEDULED")
+  departureAirport   Airport     @relation("DepartureAirport", fields: [departureAirportId], references: [id])
+  arrivalAirport     Airport     @relation("ArrivalAirport", fields: [arrivalAirportId], references: [id])
+  aircraft           Aircraft    @relation(fields: [aircraftId], references: [id])
+  tickets            Ticket[]
+  flightLogs         FlightLog[]
+
+  @@map("flights")
+}
+
+model Ticket {
+  id          Int      @id @default(autoincrement())
+  ticketNumber String   @unique
+  flightId    Int
+  passengerId Int
+  userId      Int
+  seatNumber  String
+  price       Decimal  @db.Decimal(10, 2)
+  status      String   @default("BOOKED")
+  flight      Flight   @relation(fields: [flightId], references: [id])
+  passenger   Passenger @relation(fields: [passengerId], references: [id])
+  user        User     @relation(fields: [userId], references: [id])
+  payments    Payment[]
+
+  @@map("tickets")
+}
+
+model Passenger {
+  id           Int      @id @default(autoincrement())
+  userId       Int?     @unique
+  firstName    String
+  lastName     String
+  passportNumber String   @unique
+  user         User?    @relation(fields: [userId], references: [id])
+  tickets      Ticket[]
+
+  @@map("passengers")
+}
+
+model MaintenanceLog {
+  id             Int      @id @default(autoincrement())
+  aircraftId     Int
+  technicianId   Int
+  description    String   @db.Text
+  date           DateTime @default(now())
+  maintenanceType String
+  aircraft       Aircraft @relation(fields: [aircraftId], references: [id])
+  technician     User     @relation(fields: [technicianId], references: [id])
+
+  @@map("maintenance_logs")
+}
+
+model FlightLog {
+  id             Int      @id @default(autoincrement())
+  flightId       Int
+  pilotId        Int
+  logDate        DateTime @default(now())
+  details        String   @db.Text
+  flight         Flight   @relation(fields: [flightId], references: [id])
+  pilot          User     @relation(fields: [pilotId], references: [id])
+
+  @@map("flight_logs")
+}
+
+model Payment {
+  id            Int      @id @default(autoincrement())
+  ticketId      Int
+  amount        Decimal  @db.Decimal(10, 2)
+  paymentDate   DateTime @default(now())
+  paymentMethod String
+  status        String   @default("COMPLETED")
+  ticket        Ticket   @relation(fields: [ticketId], references: [id])
+
+  @@map("payments")
+}
+
+model Notification {
+  id        Int      @id @default(autoincrement())
+  userId    Int
+  message   String
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("notifications")
+}

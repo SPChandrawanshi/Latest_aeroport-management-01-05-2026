@@ -2,7 +2,7 @@ import React from 'react';
 import DashboardLayout from '../../layouts/DashboardLayout';
 import Table from '../../components/Table';
 import Chart from '../../components/Chart';
-import { Plane, Activity, Map, AlertCircle } from 'lucide-react';
+import { Plane, Activity, Map, AlertCircle, ArrowRight } from 'lucide-react';
 
 const FlightTracking = ({ menus }) => {
   const activeFlights = [
@@ -13,21 +13,24 @@ const FlightTracking = ({ menus }) => {
 
   return (
     <DashboardLayout dashboardType="Operations" menus={menus} pageTitle="Global Flight Tracking">
-      <div className="space-y-10 animate-in fade-in duration-700">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-10">
-           <div className="lg:col-span-3 bg-shiv-card p-10 rounded-[2.5rem] border border-shiv-border shadow-2xl">
-             <h3 className="text-xl font-black text-shiv-text-primary uppercase tracking-[0.2em] mb-10 flex items-center gap-4 italic font-sans">
-               <Map size={24} className="text-shiv-primary" />
-               Neural Position Matrix
+      <div className="space-y-10 animate-in fade-in duration-700 max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+           <div className="lg:col-span-3 shiv-perfect-card p-10 group">
+             <h3 className="text-[24px] font-black text-[#0a3d62] uppercase tracking-tighter mb-10 border-b-2 border-slate-50 pb-6 flex items-center justify-between relative z-10">
+               <div className="flex items-center gap-4">
+                 <Map size={32} className="text-[#0a3d62]" />
+                 Neural Position Matrix
+               </div>
+               <ArrowRight size={20} className="text-slate-300" />
              </h3>
              <Table 
                headers={['Callsign', 'Mission Status', 'Altitude', 'Ground Speed', 'Position Vector']}
                data={activeFlights.map(f => ({
                  ...f,
-                 callsign: <span className="font-black text-shiv-text-primary italic tracking-tighter uppercase">{f.callsign}</span>,
+                 callsign: <span className="font-black text-[#0a3d62] italic tracking-tighter uppercase">{f.callsign}</span>,
                  status: (
-                   <span className={`px-4 py-1.5 rounded-lg border text-[10px] font-black uppercase tracking-widest ${
-                     f.status === 'En Route' ? 'bg-info/10 text-info border-info/20' : 'bg-shiv-bg-secondary text-shiv-muted border-shiv-border'
+                   <span className={`px-4 py-1.5 rounded-lg border-2 text-[10px] font-black uppercase tracking-widest ${
+                     f.status === 'En Route' ? 'bg-blue-50 text-[#0a3d62] border-blue-100' : 'bg-slate-50 text-slate-400 border-slate-100'
                    }`}>
                      {f.status}
                    </span>
@@ -35,16 +38,18 @@ const FlightTracking = ({ menus }) => {
                }))}
              />
            </div>
-           <div className="bg-shiv-sidebar border border-shiv-border text-shiv-text-primary p-10 rounded-[2.5rem] shadow-2xl flex flex-col justify-between relative overflow-hidden group">
+           <div className="shiv-perfect-card p-10 flex flex-col justify-between relative overflow-hidden group">
               <div className="relative z-10">
-                <Activity className="text-shiv-primary mb-8 group-hover:scale-110 transition-transform duration-500" size={40} />
-                <h4 className="text-5xl font-black italic tracking-tighter mb-2">1,248</h4>
-                <p className="text-shiv-muted text-[10px] font-black uppercase tracking-[0.2em]">Daily Air Movements</p>
+                <div className="w-14 h-14 bg-[#0a3d62] rounded-2xl flex items-center justify-center text-white shadow-xl mb-8 group-hover:rotate-6 transition-all duration-500">
+                  <Activity size={32} />
+                </div>
+                <h4 className="text-[48px] font-black italic tracking-tighter mb-2 text-[#0a3d62] leading-none">1,248</h4>
+                <p className="text-slate-400 text-[10px] font-black uppercase tracking-widest">Daily Air Movements</p>
               </div>
               <div className="relative z-10 mt-10">
-                <Chart data={[20, 45, 30, 80, 50, 90, 70]} height={100} color="#FF8A00" />
+                <Chart data={[20, 45, 30, 80, 50, 90, 70]} height={120} color="#FF8A00" />
               </div>
-              <div className="absolute -top-10 -right-10 opacity-[0.02]">
+              <div className="absolute top-0 right-0 p-8 opacity-[0.02] text-[#0a3d62] group-hover:scale-110 transition-transform duration-1000">
                 <Activity size={200} />
               </div>
            </div>
